@@ -20,7 +20,6 @@ class Image extends Model
 
     public function url(): string
     {
-        $url = Storage::disk('public')->url($this->path);
-        return $url;
+        return Storage::url($this->path);
     }
 }

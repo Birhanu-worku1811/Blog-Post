@@ -3,19 +3,18 @@
 namespace App\Models;
 
 use App\Scopes\DeletedAdminScope;
+use App\Traits\Taggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Cache;
 
 class BlogPost extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Taggable;
 
     protected $fillable = ['title', 'content', 'user_id'];
     use HasFactory;
@@ -28,11 +27,6 @@ class BlogPost extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo('App\Models\User');
-    }
-
-    public function tags(): BelongsToMany
-    {
-        return $this->belongsToMany('App\Models\Tag')->withTimestamps();
     }
 
     public function image(): morphOne
@@ -63,18 +57,18 @@ class BlogPost extends Model
 
 //        static::addGlobalScope(new LatestScope());
 
-        static::deleting(function (BlogPost $blogPost) {
-            $blogPost->comments()->delete();
-            $blogPost->image()->delete();
-            Cache::tags(['blog-post'])->forget("blog-post-{$blogPost->id}");
-        });
-
-        static::updating(function (BlogPost $blogPost) {
-            Cache::tags(['blog-post'])->forget("blog-post-{$blogPost->id}");
-        });
-        static::restoring(function (BlogPost $blogPost) {
-            $blogPost->comments()->restore();
-        });
+//        static::deleting(function (BlogPost $blogPost) {
+//            $blogPost->comments()->delete();
+//            $blogPost->image()->delete();
+//            Cache::tags(['blog-post'])->forget("blog-post-{$blogPost->id}");
+//        });
+//
+//        static::updating(function (BlogPost $blogPost) {
+//            Cache::tags(['blog-post'])->forget("blog-post-{$blogPost->id}");
+//        });
+//        static::restoring(function (BlogPost $blogPost) {
+//            $blogPost->comments()->restore();
+//        });
     }
 
 }

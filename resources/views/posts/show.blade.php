@@ -13,12 +13,6 @@
                             <h1>
                                 @endif
                                 <h1>{{ $post->title}}</h1>
-
-                                @if(session('status'))
-                                    <div class="alert alert-success">
-                                        {{session('status')}}
-                                    </div>
-                                @endif
                                 @if($post->image)
                             </h1>
                 </div>
@@ -29,6 +23,9 @@
 
             {{--            <img src="{{ asset('storage/'.$post->image->path) }}" alt="Image">--}}
             {{--            <img src="{{ $post->image->url() }}" alt="Image">--}}
+
+
+            @component('components.tags', ['tags' => $post->tags]) @endcomponent
 
             @component('components.updated', ['date' => $post->created_at, 'name' => $post->user->name])
             @endcomponent

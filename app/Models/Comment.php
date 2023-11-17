@@ -3,16 +3,16 @@
 namespace App\Models;
 
 use App\Scopes\LatestScope;
+use App\Traits\Taggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Cache;
 
 class Comment extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Taggable;
     use HasFactory;
 
     protected $fillable = ['content', 'user_id'];
@@ -27,6 +27,7 @@ class Comment extends Model
         return $this->belongsTo('App\Models\User');
     }
 
+
     public function scopeLatest(Builder $query)
     {
         return $query->orderBy(static::CREATED_AT, 'desc');
@@ -34,17 +35,17 @@ class Comment extends Model
 
     public static function boot(): void
     {
+        static::addGlobalScope(new LatestScope());
         parent::boot();
 
 
-        static::creating(function (Comment $comment) {
-            if ($comment->commentable_type === BlogPost::class) {
-                Cache::tags(['blog-post'])->forget("blog-post-{$comment->commentable_id}");
-                Cache::tags(['blog-post'])->forget('most_commented');
-            }
-        });
+//        static::creating(function (Comment $comment) {
+//            if ($comment->commentable_type === BlogPost::class) {
+//                Cache::tags(['blog-post'])->forget("blog-post-{$comment->commentable_id}");
+//                Cache::tags(['blog-post'])->forget('most_commented');
+//            }
+//        });
 
-        static::addGlobalScope(new LatestScope());
 
     }
 
