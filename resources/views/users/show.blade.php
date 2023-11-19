@@ -9,6 +9,8 @@
         <div class="col-8">
             <h3>{{ $user->name }}</h3>
 
+            <p>{{$counter}} people watching this this profile</p>
+
             @component('components.commentForm', ['route' => route('users.comments.store', ['user'=>$user->id])])
             @endcomponent
 

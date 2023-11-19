@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\CounterFacade;
 use App\Http\Requests\UpdateUser;
 use App\Models\Image;
 use App\Models\User;
@@ -44,7 +45,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('users.show', ['user' => $user]);
+        return view('users.show', [
+            'user' => $user,
+            'counter' => CounterFacade::increment("user-{$user->id}")
+        ]);
     }
 
     /**
@@ -73,7 +77,10 @@ class UserController extends Controller
             }
         }
 
-        return redirect()->back()->withStatus('profile Image updated');
+        $user->locale = $request->get('locale');
+        $user->save();
+
+        return redirect()->back()->withStatus('profile was updated');
     }
 
     /**

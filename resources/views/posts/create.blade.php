@@ -6,6 +6,6 @@
     <form action="{{route('posts.store')}}" method="post" enctype="multipart/form-data">
         @csrf
         @include('posts.partials.form')
-        <div><input type="submit" value="create" class="btn btn-primary btn-block"></div>
+        <div><input type="submit" value="{{__("Create!")}}" class="btn btn-primary btn-block"></div>
     </form>
 @endsection

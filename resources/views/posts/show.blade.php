@@ -36,7 +36,7 @@
 
             {{--    @component('components.tags', ['tags' => $post->tags]) @endcomponent--}}
 
-            <p>{{ $counter }} people reading</p>
+            <p>{{trans_choice('messages.people.reading', $counter)}}</p>
 
             @if(now()->diffInMinutes($post->created_at)<60)
                 @component('components.badge', ['type' => 'primary'])

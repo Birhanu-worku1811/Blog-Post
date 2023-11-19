@@ -36,6 +36,6 @@ class PostCommentController extends Controller
 //        );
 
 
-        return redirect()->back()->withStatus('Comment was created');
+        return redirect()->back()->withStatus("Comment was created");
     }
 }
