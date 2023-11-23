@@ -99,7 +99,7 @@ Route::prefix('/fun')->name('fun.')->group(function () use ($posts) {
 });
 
 Route::get('/posts/tag/{tag}', 'App\Http\Controllers\PostTagController@index')->name('posts.tags.index');
-Route::resource('posts.comments', 'App\Http\Controllers\PostCommentController')->only('store');
+Route::resource('posts.comments', 'App\Http\Controllers\PostCommentController')->only('index', 'store');
 Route::resource('users.comments', 'App\Http\Controllers\UserCommentController')->only(['store']);
 Route::resource('users', 'App\Http\Controllers\UserController')->only('show', 'edit', 'update');
 
@@ -108,3 +108,4 @@ Route::get('mailable', function () {
     return new App\Mail\CommentPostedMarkdown($comment);
 });
 Auth::routes();
+

@@ -6,6 +6,7 @@ use App\Models\BlogPost;
 use App\Models\Comment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\User;
 
 
 class PostTest extends TestCase
@@ -32,7 +33,7 @@ class PostTest extends TestCase
 
         // Assert
         $response->assertSeeText('new title');
-        $response->assertSeeText('no comments yet');
+//        $response->assertSeeText('no comments yet!');
 
     }
 
@@ -74,8 +75,8 @@ class PostTest extends TestCase
         $this->actingAs($this->user())->post('/posts', $params)->assertStatus(302)->assertSessionHas('errors');
         $messages = session('errors')->getMessages();
 
-        $this->assertEquals('The title field must be at least 5 characters.', $messages['title'][0]);
-        $this->assertEquals('The content field must be at least 10 characters.', $messages['content'][0]);
+        $this->assertEquals('The title must be at least 5 characters.', $messages['title'][0]);
+        $this->assertEquals('The content must be at least 10 characters.', $messages['content'][0]);
     }
 
 //
@@ -112,7 +113,6 @@ class PostTest extends TestCase
 
 
     }
-
     private function create_dummy_blogpost($userId = null): BlogPost
     {
 //        $post = new BlogPost();

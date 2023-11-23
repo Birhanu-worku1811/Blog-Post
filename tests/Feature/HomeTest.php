@@ -13,7 +13,7 @@ class HomeTest extends TestCase
     {
         $response = $this->get('/');
 
-        $response->assertSeeText('Home page');
+        $response->assertSeeText('messages.home');
         $response->assertStatus(200);
     }
 

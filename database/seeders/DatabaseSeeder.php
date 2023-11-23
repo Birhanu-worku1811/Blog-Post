@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         if ($this->command->confirm('Do you want to refresh the db?')) {
             $this->command->call('migrate:refresh');
-            $this->command->info('Database was refresh!');
+            $this->command->info('Database was refreshed!');
         }
         Cache::tags('blog-post')->flush();
 
